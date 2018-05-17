@@ -1,7 +1,9 @@
 
 // init project
 var express = require('express');
+var prettyjson = require('prettyjson');
 var app = express();
+
 
 
 
@@ -24,7 +26,7 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   
 request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
-  response.send(JSON.stringify(body.items,null,10));
+  response.send(prettyjson.render(body.items,{noColor:true}));
 });
 
   

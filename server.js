@@ -31,7 +31,8 @@ request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="
   //response.send(resultsArray[0].pagemap.cse_thumbnail[0].src);
   
   var finalResults = [];
-
+  response.send(finalResults);
+/*
     for(var i = 0; i<arrLen; i++){
       finalResults.push({
       url: resultsArray[i].pagemap.cse_image[i].src ,
@@ -39,11 +40,8 @@ request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="
       context: resultsArray[i].link,
       thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
       })
-      if(i==arrLen-1){
-       
-      }
     }
-  
+  */
     //response.send(finalResults);
   
   

@@ -42,8 +42,8 @@ function getConnection(url){
   return new Promise(function(reject,resolve){
     var request = require('request');
         request(url, { json: true }, (err, res, body) => {
-                if(err){ reject(body.items); }
-                else{ console.log(url); resolve("hello");}
+                if(err){ reject(err); }
+                else{ console.log(url); resolve(body.items);}
         });
 });
 }

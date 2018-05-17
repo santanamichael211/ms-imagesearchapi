@@ -13,18 +13,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-
-app.get("/api/imagesearch/:search",(request, response)=>{
-  var search = request.params.search;
-  
+//AIzaSyC1-YQaSgU9Evazx36rCrtB_py6azRTvow
+app.get("/api/imagesearch/",(request, response)=>{
+  //var search = request.params.search;
   response.write(
   "<script> (function() {var cx = '003066421765772510641:fqbs-hzafsq'; var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true; gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;" +
     "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s); })(); </script> <gcse:search></gcse:search>");
-  
-  
-  
-  
-  
+
 });
 
 // listen for requests :)

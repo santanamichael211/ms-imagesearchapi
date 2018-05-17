@@ -32,7 +32,9 @@ request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="
   
   
 
-  setObjArr(resultsArray).then()
+  setObjArr(resultsArray).then(res =>{
+  response.send("hello");
+  })
 
     //response.send(finalResults);
   
@@ -50,7 +52,9 @@ var listener = app.listen(process.env.PORT, function () {
 
 function setObjArr(resultsArray){
   return new Promise((resolve, reject) => {
-    
+    if(!resultsArray){reject();}
+    else{
+      
     var formattedArr = [];
     var arrLen = resultsArray.length;
     
@@ -61,9 +65,11 @@ function setObjArr(resultsArray){
       context: resultsArray[i].link,
       thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
       })
+      console.log(formattedArr[i]);
     }
   
-    
     resolve(formattedArr);
+    
+    }
   });
 }

@@ -28,15 +28,17 @@ request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="
   if (err) { return console.log(err); }
   var resultsArray = body.items;
   var arrLen = resultsArray.length;
-  response.send(resultsArray[0].kind);
+  //response.send(resultsArray[0].kind);
   
-  var results = "";
+  var finalResults = [];
   
     for(var i = 0; i<arrLen; i++){
-      results += "{ 'url'" + resultsArray[i]
+      finalResults.push({
+      url: resultsArray[0].link,
+      snippet: resultsArray[0].snippet,
+      thumbnail  
       
-    
-    
+      })
     }
   
   

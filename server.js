@@ -26,7 +26,20 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   
 request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
-  response.send(prettyjson.render(body.items,{noColor:true}));
+  var resultsArray = body.items;
+  var arrLen = resultsArray.length;
+  response.send(resultsArray[0].kind);
+  
+  var results = "";
+  
+    for(var i = 0; i<arrLen; i++){
+      results += "{ 'url'" + resultsArray[i]
+      
+    
+    
+    }
+  
+  
 });
 
   

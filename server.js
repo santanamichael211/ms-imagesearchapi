@@ -27,7 +27,7 @@ app.get("/api/imagesearch/:search",(request, response)=>{
 getConnection(url).then(function(data){
   
 }).catch(function(err){
-if(err)console.log(err);
+//console.log(err);
 });
  
 });
@@ -43,7 +43,7 @@ function getConnection(url){
     var request = require('request');
         request(url, { json: true }, (err, res, body) => {
                 if (err) { reject(err); }
-                else{ console.log(url);resolve(body.items);}
+                else{ console.log(url); resolve(body.items);}
         });
 });
 }

@@ -27,21 +27,13 @@ app.get("/api/imagesearch/:search",(request, response)=>{
 request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key, { json: true }, (err, res, body) => {
   if (err) { return console.log(err); }
   var resultsArray = body.items;
-  var arrLen = resultsArray.length;
+  
   //response.send(resultsArray[0].pagemap.cse_thumbnail[0].src);
   
-  var finalResults = [];
-  response.send(finalResults);
-/*
-    for(var i = 0; i<arrLen; i++){
-      finalResults.push({
-      url: resultsArray[i].pagemap.cse_image[i].src ,
-      snippet: resultsArray[i].snippet,
-      context: resultsArray[i].link,
-      thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
-      })
-    }
-  */
+  
+
+  setObjArr(resultsArray).then()
+
     //response.send(finalResults);
   
   
@@ -55,3 +47,23 @@ request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+function setObjArr(resultsArray){
+  return new Promise((resolve, reject) => {
+    
+    var formattedArr = [];
+    var arrLen = resultsArray.length;
+    
+    for(var i = 0; i<arrLen; i++){
+      formattedArr.push({
+      url: resultsArray[i].pagemap.cse_image[i].src ,
+      snippet: resultsArray[i].snippet,
+      context: resultsArray[i].link,
+      thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
+      })
+    }
+  
+    
+    resolve(formattedArr);
+  });
+}

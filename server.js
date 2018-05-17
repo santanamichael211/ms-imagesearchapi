@@ -28,18 +28,23 @@ request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="
   if (err) { return console.log(err); }
   var resultsArray = body.items;
   var arrLen = resultsArray.length;
-  //response.send(resultsArray[0].kind);
+  //response.send(resultsArray[0].pagemap.cse_thumbnail[0].src);
   
   var finalResults = [];
-  
+
     for(var i = 0; i<arrLen; i++){
       finalResults.push({
-      url: resultsArray[0].link,
-      snippet: resultsArray[0].snippet,
-      thumbnail  
-      
+      url: resultsArray[i].pagemap.cse_image[i].src ,
+      snippet: resultsArray[i].snippet,
+      context: resultsArray[i].link,
+      thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
       })
+      if(i==arrLen-1){
+       
+      }
     }
+  
+    //response.send(finalResults);
   
   
 });

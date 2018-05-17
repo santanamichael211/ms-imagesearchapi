@@ -2,6 +2,7 @@
 // init project
 var express = require('express');
 var app = express();
+var request = require("request");
 
 
 
@@ -16,8 +17,20 @@ app.get("/", function (request, response) {
 
 app.get("/api/imagesearch/:search",(request, response)=>{
   var search = request.params.search;
+  search = search.replace(/\s/g,"+");
   var cx = '003066421765772510641:fqbs-hzafsq';
   var key = "AIzaSyC1-YQaSgU9Evazx36rCrtB_py6azRTvow";
+  
+  request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key, { json: true }, (err, res, body) => {
+  if (err) { return console.log(err); }
+  
+  console.log(body.explanation);
+});
+  
+  
+  
+  
+  //GET https://www.googleapis.com/customsearch/v1?q=cute+dogs&cx=003066421765772510641%3Afqbs-hzafsq&key={YOUR_API_KEY}
 
 });
 

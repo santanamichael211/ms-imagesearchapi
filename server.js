@@ -24,21 +24,11 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   var key = "AIzaSyC1-YQaSgU9Evazx36rCrtB_py6azRTvow";
   var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key;
   
-request('https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key, { json: true }, (err, res, body) => {
-  if (err) { return console.log(err); }
-  var resultsArray = body.items;
+getConnection(url).then(function(data){
+  getFormattedA
   
-  //response.send(resultsArray[0].pagemap.cse_thumbnail[0].src);
-
-  setObjArr(resultsArray).then((data)=>{
-  response.send(data);
-  }).catch(function(err){
-    console.log(err);
-  });
-
-    //response.send(finalResults);
-  
-  
+}).catch(function(err){
+if(err)console.log(err);
 });
 
   
@@ -50,38 +40,41 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-function setObjArr(resultsArray, url){
-  return new Promise((resolve, reject) => {
+
+function getConnection(url){
+  return new Promise(function(reject,resolve){
     var request = require('request');
     
-    request
+        request(url, { json: true }, (err, res, body) => {
+                if (err) { reject(err); }
+                else{ resolve(body.items);}
+        });
     
-    
-    
-  });
+});
 }
-/*
 
-if(!resultsArray){reject("error occured");}
+function getFormattedArr(data){
+  return new Promise(function(reject,resolve){
+    if(!data){
+    reject("Data is NULL");
+    }
     else{
       
-    var formattedArr = [];
-    var arrLen = resultsArray.length;
-   
-    for(var i = 0; i<arrLen; i++){
+      var formattedArr = [];
+      var arrLen = data.length;
+      
+      for(var i = 0; i<arrLen; i++){
       formattedArr.push({
-      url: resultsArray[i].pagemap.cse_image[i].src 
+      url: data[i].pagemap.cse_image[i].src 
       //snippet: resultsArray[i].snippet,
       //context: resultsArray[i].link,
       //thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
       })
       console.log(formattedArr[i]);
     }
-  
-    resolve(formattedArr);
+      resolve(formattedArr);
     }
+  });
+}
 
 
-
-
-*/

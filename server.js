@@ -25,11 +25,7 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key;
   
 getConnection(url).then(function(data){
-  getFormattedArr(data).then(function(res){
-    response.send(res);
-  }).catch(function(err){
-   if(err)console.log(err);
-  });
+  
 }).catch(function(err){
 if(err)console.log(err);
 });
@@ -47,7 +43,7 @@ function getConnection(url){
     var request = require('request');
         request(url, { json: true }, (err, res, body) => {
                 if (err) { reject(err); }
-                else{ resolve(body.items);}
+                else{ console.log(url);resolve(body.items);}
         });
 });
 }

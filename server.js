@@ -52,13 +52,24 @@ response.send(400,err);
 });
 
 app.get("/api/latest/imagesearch",function(request,response){
-
 connectToDb().then(function(collection){
   
-    collection.find({},)
-
-
-});
+  var projection = {
+  _id:0,
+  term:1,
+  when:1  
+  }
+  
+    var results = collection.find({}).limit(10);
+    results.project(projection);
+  
+    results.toArray(function(err,resultA){
+        response.send(resultA);
+    });
+}).catch(function(err){
+response.send(400,err);
+})
+  
 });
 
 

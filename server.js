@@ -24,7 +24,7 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   }
   var term = request.params.search;
   var search = term.replace(/\s/g,"+");
-  var cx = '003066421765772510641:fqbs-hzafsq';
+  var cx = '003066421765772510641:fqbs-hzafsq'; 
   var key = "AIzaSyC1-YQaSgU9Evazx36rCrtB_py6azRTvow";
   var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&num="+offset+"&key="+key;
   
@@ -35,7 +35,7 @@ response.status(400).send(err);
 }).then(function(formatted){
   response.send(JSON.stringify(formatted));
 }).catch(function(err){
-response.send(400,err);
+response.status(400).send(err);
 });
   
 connectToDb().then(function(collection){
@@ -46,7 +46,7 @@ connectToDb().then(function(collection){
                       });
   console.log("Added to database");
 }).catch(function(err){
-response.send(400,err);
+response.status(400).send(err);
 });
  
 });

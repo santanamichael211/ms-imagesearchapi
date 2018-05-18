@@ -60,7 +60,7 @@ connectToDb().then(function(collection){
   when:1  
   }
   
-    var results = collection.find({}).limit(10);
+    var results = collection.find({}).sort({when:-1}).limit(10);
     results.project(projection);
   
     results.toArray(function(err,resultA){
@@ -105,13 +105,13 @@ let getFormattedArr = function (data){
       for(var i = 0; i<arrLen; i++){
         
       formattedArr.push({
-      url: data[i].pagemap.metatags[0]["og:image"]//.cse_image[0].src,
-      //snippet: data[i].snippet,
-      //context: data[i].link,
-      //thumbnail: data[i].pagemap.cse_thumbnail[0].src 
+      url: data[i].pagemap.cse_image[0].src,//.cse_image[0].src,
+      snippet: data[i].snippet,
+      context: data[i].link,
+      thumbnail: data[i].pagemap.cse_thumbnail[0].src 
       })
     }
-      console.log(formattedArr);
+      
       resolve(formattedArr);
     }
   });

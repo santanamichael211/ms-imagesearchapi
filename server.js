@@ -31,7 +31,7 @@ app.get("/api/imagesearch/:search",(request, response)=>{
 getConnection(url).then(function(data){
     return getFormattedArr(data);
 }).catch(function(err){
-response.send(400,err);
+response.status(400).send(err);
 }).then(function(formatted){
   response.send(JSON.stringify(formatted));
 }).catch(function(err){

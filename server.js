@@ -25,9 +25,9 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key;
   
 getConnection(url).then(function(data){
-  //response.send("Hello")
+  response.send("Hello")
 }).catch(function(err){
-response.send(err);
+console.log(err);
 });
  
 });
@@ -38,8 +38,8 @@ var listener = app.listen(process.env.PORT, function () {
 });
 
 
-function getConnection(url){
-  return new Promise(function(reject,resolve){
+let getConnection = function(url){
+  return new Promise(function(resolve,reject){
     var request = require('request');
         request(url, { json: true }, (err, res, body) => {
                 if(err){ reject(err); }
@@ -49,7 +49,7 @@ function getConnection(url){
 }
 
 function getFormattedArr(data){
-  return new Promise(function(reject,resolve){
+  return new Promise(function(resolve,reject){
     if(!data){
     reject("Data is NULL");
     }

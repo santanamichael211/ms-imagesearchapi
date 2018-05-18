@@ -25,7 +25,11 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key;
   
 getConnection(url).then(function(data){
-  response.send("Hello")
+    return getFormattedArr(data);
+}).catch(function(err){
+console.log(err);
+}).then(function(formatted){
+  response.send(formatted);
 }).catch(function(err){
 console.log(err);
 });
@@ -48,7 +52,7 @@ let getConnection = function(url){
 });
 }
 
-function getFormattedArr(data){
+let getFormattedArr = function (data){
   return new Promise(function(resolve,reject){
     if(!data){
     reject("Data is NULL");
@@ -59,16 +63,15 @@ function getFormattedArr(data){
       var arrLen = data.length;
      
       for(var i = 0; i<arrLen; i++){
+        
       formattedArr.push({
-      url: data[i].pagemap.cse_image[i].src 
-      //snippet: resultsArray[i].snippet,
-      //context: resultsArray[i].link,
-      //thumbnail: resultsArray[i].pagemap.cse_thumbnail[i].src 
+      url: data[i].pagemap.cse_image[0].src,
+      snippet: data[i].snippet,
+      context: data[i].link,
+      thumbnail: data[i].pagemap.cse_thumbnail[0].src 
       })
       
     }
-    
-      //console.log(formattedArr);
       resolve(formattedArr);
     }
   });

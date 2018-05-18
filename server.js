@@ -5,7 +5,7 @@ var app = express();
 var mongo = require('mongodb').MongoClient;
 
 
-
+var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 
 
 // http://expressjs.com/en/starter/static-files.html
@@ -22,8 +22,8 @@ app.get("/api/imagesearch/:search",(request, response)=>{
   if(request.query.offset){
     offset = request.query.offset;
   }
-  var search = request.params.search;
-  search = search.replace(/\s/g,"+");
+  var term = request.params.search;
+  var search = term.replace(/\s/g,"+");
   var cx = '003066421765772510641:fqbs-hzafsq';
   var key = "AIzaSyC1-YQaSgU9Evazx36rCrtB_py6azRTvow";
   var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&num="+offset+"&key="+key;
@@ -34,10 +34,14 @@ getConnection(url).then(function(data){
 response.send(400,err);
 }).then(function(formatted){
   response.send(JSON.stringify(formatted));
-  
+  return insertToDb(term);
 }).catch(function(err){
 response.send(400,err);
-});
+}).then(function(){
+console.log("inserted to DB");
+}).catch(function(err){
+response.send(400,err);
+})
  
 });
 
@@ -81,9 +85,24 @@ let getFormattedArr = function (data){
   });
 }
 
-let connectToDb = function(){
-
-
+let insertToDb = function(term){
+  return new Promise(function(resolve,reject){
+    mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+      if(err){reject(err);}
+		var db = database.db;
+		var collection = db.colleciton("imagesearch");
+    var date = new date();
+    collection.insert({
+      term:term,
+      when:date
+                      },function(err){
+    if(err){console.log(err);}
+      db.close();
+      resolve();
+    });  
+      
+        });
+  });
 }
 
 

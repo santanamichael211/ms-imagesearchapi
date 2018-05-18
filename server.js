@@ -1,8 +1,8 @@
 
 // init project
 var express = require('express');
-var prettyjson = require('prettyjson');
 var app = express();
+var mongo = require('mongodb').MongoClient;
 
 
 
@@ -34,6 +34,7 @@ getConnection(url).then(function(data){
 response.send(400,err);
 }).then(function(formatted){
   response.send(JSON.stringify(formatted));
+  
 }).catch(function(err){
 response.send(400,err);
 });
@@ -78,6 +79,11 @@ let getFormattedArr = function (data){
       resolve(formattedArr);
     }
   });
+}
+
+let connectToDb = function(){
+
+
 }
 
 

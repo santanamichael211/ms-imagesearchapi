@@ -34,16 +34,35 @@ getConnection(url).then(function(data){
 response.send(400,err);
 }).then(function(formatted){
   response.send(JSON.stringify(formatted));
-  return connectToDb(term);
 }).catch(function(err){
 response.send(400,err);
-}).then(function(){
-console.log("inserted to DB");
+});
+  
+connectToDb().then(function(collection){
+            var date = new Date();
+        collection.insert({
+          term:term,
+          when:date
+                      });
+  console.log("Added to database");
 }).catch(function(err){
 response.send(400,err);
-})
+});
  
 });
+
+app.get("/api/latest/imagesearch",function(request,response){
+
+connectToDb().then(function(collection){
+  
+    collection.find({},)
+
+
+});
+});
+
+
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
@@ -95,7 +114,6 @@ let connectToDb = function(){
           else{
           resolve(collection);
           }
-      
     });
         });
   });

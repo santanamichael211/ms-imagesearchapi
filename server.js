@@ -18,20 +18,24 @@ app.get("/", function (request, response) {
 
 
 app.get("/api/imagesearch/:search",(request, response)=>{
+  var offset = 10;
+  if(request.query.offset){
+    offset = request.query.offset;
+  }
   var search = request.params.search;
   search = search.replace(/\s/g,"+");
   var cx = '003066421765772510641:fqbs-hzafsq';
   var key = "AIzaSyC1-YQaSgU9Evazx36rCrtB_py6azRTvow";
-  var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&key="+key;
+  var url = 'https://www.googleapis.com/customsearch/v1?q='+search+"&cx="+cx+"&num="+offset+"&key="+key;
   
 getConnection(url).then(function(data){
     return getFormattedArr(data);
 }).catch(function(err){
-console.log(err);
+response.send(400,err);
 }).then(function(formatted){
-  response.send(formatted);
+  response.send(JSON.stringify(formatted));
 }).catch(function(err){
-console.log(err);
+response.send(400,err);
 });
  
 });
@@ -55,7 +59,7 @@ let getConnection = function(url){
 let getFormattedArr = function (data){
   return new Promise(function(resolve,reject){
     if(!data){
-    reject("Data is NULL");
+    reject("Data is NULL! This is usually caused by setting the offset parameter greater than 10. Please try a lesser value.");
     }
     else{
       
@@ -70,7 +74,6 @@ let getFormattedArr = function (data){
       context: data[i].link,
       thumbnail: data[i].pagemap.cse_thumbnail[0].src 
       })
-      
     }
       resolve(formattedArr);
     }

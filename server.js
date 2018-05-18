@@ -34,7 +34,7 @@ getConnection(url).then(function(data){
 response.send(400,err);
 }).then(function(formatted){
   response.send(JSON.stringify(formatted));
-  return insertToDb(term);
+  return connectToDb(term);
 }).catch(function(err){
 response.send(400,err);
 }).then(function(){
@@ -85,22 +85,18 @@ let getFormattedArr = function (data){
   });
 }
 
-let insertToDb = function(term){
+let connectToDb = function(){
   return new Promise(function(resolve,reject){
     mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
       if(err){reject(err);}
-		var db = database.db;
-		var collection = db.colleciton("imagesearch");
-    var date = new date();
-    collection.insert({
-      term:term,
-      when:date
-                      },function(err){
-    if(err){console.log(err);}
-      db.close();
-      resolve();
-    });  
+		var db = database.db("freecodedb");
+		var collection = db.collection("imagesearch",function(err,collection){
+         if(err){reject(err);}
+          else{
+          resolve(collection);
+          }
       
+    });
         });
   });
 }

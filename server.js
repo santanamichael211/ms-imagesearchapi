@@ -86,7 +86,7 @@ let getConnection = function(url){
     var request = require('request');
         request(url, { json: true }, (err, res, body) => {
                 if(err){ reject(err); }
-                else{ console.log(url); resolve(body.items);}
+                else{ resolve(body.items);}
         });
 });
 }
@@ -100,16 +100,18 @@ let getFormattedArr = function (data){
       
       var formattedArr = [];
       var arrLen = data.length;
+      
      
       for(var i = 0; i<arrLen; i++){
         
       formattedArr.push({
-      url: data[i].pagemap.cse_image[0].src,
-      snippet: data[i].snippet,
-      context: data[i].link,
-      thumbnail: data[i].pagemap.cse_thumbnail[0].src 
+      url: data[i].pagemap.metatags[0]["og:image"]//.cse_image[0].src,
+      //snippet: data[i].snippet,
+      //context: data[i].link,
+      //thumbnail: data[i].pagemap.cse_thumbnail[0].src 
       })
     }
+      console.log(formattedArr);
       resolve(formattedArr);
     }
   });

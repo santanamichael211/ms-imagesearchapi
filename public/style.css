@@ -1,0 +1,21 @@
+body{
+background:antiquewhite;
+  color:dodgerblue;
+  font-family:Trebuchet MS, Helvetica, sans-serif;
+}
+
+h1{
+text-align:center;
+}
+
+h5{
+margin-left:40%;
+}
+
+div{
+margin-left:25%;
+}
+
+div h3{
+background:#333;color:#00ff33;border-radius:2px;padding:.2em;
+}
